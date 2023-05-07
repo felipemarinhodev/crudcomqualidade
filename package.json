@@ -11,6 +11,7 @@
   "author": "felipemarinhodev",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^20.1.0",
     "nodemon": "^2.0.22",
     "typescript": "^5.0.4"
   }
