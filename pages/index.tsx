@@ -1,6 +1,9 @@
+import { GlobalStyles } from "../src/theme/GlobalStyles";
+
 export default function HomePage() {
   return (
     <main>
+      <GlobalStyles themeName="coolGrey" />
       <header
         style={{
           //  backgroundImage: `url('${bg}')`,
