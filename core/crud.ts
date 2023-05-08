@@ -1,17 +1,18 @@
-import fs from'fs';
-import { v4 as uuid } from 'uuid';
+/* eslint-disable no-console */
+import fs from "fs";
+import { v4 as uuid } from "uuid";
 
 const DB_FILE_PATH = "./core/db";
 
 console.log("[CRUD]");
 
-type UUID = string
+type UUID = string;
 
 interface Todo {
   id: UUID;
   content: string;
   date: string;
-  done: boolean
+  done: boolean;
 }
 
 function create(content: string): Todo {
@@ -19,13 +20,10 @@ function create(content: string): Todo {
     id: uuid(),
     content,
     date: new Date().toISOString(),
-    done: false
-  }
+    done: false,
+  };
 
-  const todos: Array<Todo> = [
-    ...read(),
-    todo
-  ]
+  const todos: Array<Todo> = [...read(), todo];
 
   // salvar o content no sistema
   saveTodos(todos);
@@ -33,14 +31,21 @@ function create(content: string): Todo {
 }
 
 function saveTodos(todos: Todo[]) {
-  fs.writeFileSync(DB_FILE_PATH, JSON.stringify({
-    todos
-  }, null, 2));
+  fs.writeFileSync(
+    DB_FILE_PATH,
+    JSON.stringify(
+      {
+        todos,
+      },
+      null,
+      2
+    )
+  );
 }
 
 function read(): Array<Todo> {
   const dbString = fs.readFileSync(DB_FILE_PATH, "utf-8");
-  const db = JSON.parse(dbString || "{}")
+  const db = JSON.parse(dbString || "{}");
   if (!db.todos) {
     return [];
   }
@@ -53,50 +58,50 @@ function update(id: UUID, partialTodo: Partial<Todo>): Todo {
   todos.forEach((currentTodo) => {
     const isToUpdate = currentTodo.id === id;
     if (isToUpdate) {
-      updatedTodo = Object.assign(currentTodo, partialTodo)
+      updatedTodo = Object.assign(currentTodo, partialTodo);
     }
   });
-  saveTodos(todos)
+  saveTodos(todos);
 
   if (!updatedTodo) {
-    throw new Error("Please, provide another ID!")
+    throw new Error("Please, provide another ID!");
   }
 
   return updatedTodo;
 }
 
 function updateContentById(id: UUID, content: string): Todo {
-  return update(id, { content })
+  return update(id, { content });
 }
 
 function deleteById(id: UUID) {
-  const todos = read()
-  const todosWithoutOne = todos.filter((todo) =>{
+  const todos = read();
+  const todosWithoutOne = todos.filter((todo) => {
     if (id === todo.id) {
       return false;
     }
     return true;
   });
 
-  saveTodos(todosWithoutOne)
+  saveTodos(todosWithoutOne);
 }
 
-function clearDB () {
+function clearDB() {
   fs.writeFileSync(DB_FILE_PATH, "");
 }
 
 // [SIMULATION]
-clearDB()
-create("Primeiro TODO")
-const secondTodo = create("Segunda TODO")
-create("Extra TODO")
+clearDB();
+create("Primeiro TODO");
+const secondTodo = create("Segunda TODO");
+create("Extra TODO");
 deleteById(secondTodo.id);
-const thirdTodo = create("Terceira TODO")
+const thirdTodo = create("Terceira TODO");
 // update(thirdTodo.id, {
 //   content: "Segunda TODO com novo content!",
 //   done: true
 // })
 
-updateContentById(thirdTodo.id, "Atualizada!")
+updateContentById(thirdTodo.id, "Atualizada!");
 
 console.log(read());
