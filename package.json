@@ -6,13 +6,18 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:crud": "npx ts-node ./core/crud.ts",
-    "dev:crud": "nodemon --ext ts, tsx --exec 'npm run start:crud'"
+    "dev:crud": "nodemon --ext ts, tsx --exec 'npm run start:crud'",
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
   "keywords": [],
   "author": "felipemarinhodev",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.1.0",
+    "@types/react": "18.2.6",
     "@types/uuid": "^9.0.1",
     "nodemon": "^2.0.22",
     "typescript": "^5.0.4"
