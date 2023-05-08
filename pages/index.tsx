@@ -1,12 +1,14 @@
 import { GlobalStyles } from "../src/theme/GlobalStyles";
 
+const bg = "https://mariosouto.com/cursos/crudcomqualidade/bg";
+
 export default function HomePage() {
   return (
     <main>
       <GlobalStyles themeName="coolGrey" />
       <header
         style={{
-          //  backgroundImage: `url('${bg}')`,
+          backgroundImage: `url('${bg}')`,
         }}
       >
         <div className="typewriter">
