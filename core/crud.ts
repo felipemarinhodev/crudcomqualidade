@@ -12,7 +12,7 @@ interface Todo {
   done: boolean
 }
 
-function create(content: string) {
+function create(content: string): Todo {
   const todo: Todo = {
     id: uuid(),
     content,
@@ -26,10 +26,14 @@ function create(content: string) {
   ]
 
   // salvar o content no sistema
+  saveTodos(todos);
+  return todo;
+}
+
+function saveTodos(todos: Todo[]) {
   fs.writeFileSync(DB_FILE_PATH, JSON.stringify({
     todos
   }, null, 2));
-  return todo;
 }
 
 function read(): Array<Todo> {
@@ -41,6 +45,28 @@ function read(): Array<Todo> {
   return db.todos;
 }
 
+function update(id: string, partialTodo: Partial<Todo>): Todo {
+  let updatedTodo;
+  const todos = read();
+  todos.forEach((currentTodo) => {
+    const isToUpdate = currentTodo.id === id;
+    if (isToUpdate) {
+      updatedTodo = Object.assign(currentTodo, partialTodo)
+    }
+  });
+  saveTodos(todos)
+
+  if (!updatedTodo) {
+    throw new Error("Please, provide another ID!")
+  }
+
+  return updatedTodo;
+}
+
+function updateContentById(id: string, content: string): Todo {
+  return update(id, { content })
+}
+
 function clearDB () {
   fs.writeFileSync(DB_FILE_PATH, "");
 }
@@ -48,5 +74,13 @@ function clearDB () {
 // [SIMULATION]
 clearDB()
 create("Primeiro TODO")
-create("Segunda TODO")
+create("Primeiro TODO")
+const terceiraTodo = create("Segunda TODO")
+// update(terceiraTodo.id, {
+//   content: "Segunda TODO com novo content!",
+//   done: true
+// })
+
+updateContentById(terceiraTodo.id, "Atualizada!")
+
 console.log(read());
