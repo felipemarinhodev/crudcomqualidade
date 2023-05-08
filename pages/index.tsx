@@ -1,6 +1,6 @@
 import { GlobalStyles } from "../src/theme/GlobalStyles";
 
-const bg = "https://mariosouto.com/cursos/crudcomqualidade/bg";
+const bg = "bg.avif"
 
 export default function HomePage() {
   return (
