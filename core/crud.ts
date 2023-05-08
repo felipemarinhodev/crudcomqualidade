@@ -67,6 +67,18 @@ function updateContentById(id: string, content: string): Todo {
   return update(id, { content })
 }
 
+function deleteById(id: string) {
+  const todos = read()
+  const todosWithoutOne = todos.filter((todo) =>{
+    if (id === todo.id) {
+      return false;
+    }
+    return true;
+  });
+
+  saveTodos(todosWithoutOne)
+}
+
 function clearDB () {
   fs.writeFileSync(DB_FILE_PATH, "");
 }
@@ -74,13 +86,15 @@ function clearDB () {
 // [SIMULATION]
 clearDB()
 create("Primeiro TODO")
-create("Primeiro TODO")
-const terceiraTodo = create("Segunda TODO")
-// update(terceiraTodo.id, {
+const secondTodo = create("Segunda TODO")
+create("Extra TODO")
+deleteById(secondTodo.id);
+const thirdTodo = create("Terceira TODO")
+// update(thirdTodo.id, {
 //   content: "Segunda TODO com novo content!",
 //   done: true
 // })
 
-updateContentById(terceiraTodo.id, "Atualizada!")
+updateContentById(thirdTodo.id, "Atualizada!")
 
 console.log(read());
