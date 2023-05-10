@@ -1,30 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GlobalStyles } from "@ui/theme/GlobalStyles";
+import { todoController } from "@ui/controller/todos";
 
 const bg = "bg.avif";
 
-const todos = [
-  {
-    id: "808ef14b-0ec1-4d67-81b1-51d4f27e11a7",
-    content: "Primeiro TODO",
-    date: "2023-05-10T03:32:06.841Z",
-    done: false,
-  },
-  {
-    id: "7f449b61-6887-42ea-8708-052af494bd82",
-    content: "Extra TODO",
-    date: "2023-05-10T03:32:06.842Z",
-    done: false,
-  },
-  {
-    id: "90b8b00e-3f0c-4851-8018-0ec3d4130ee6",
-    content: "Atualizada!",
-    date: "2023-05-10T03:32:06.842Z",
-    done: false,
-  },
-];
+interface HomeTodo {
+  id: string;
+  content: string;
+}
 
 export default function HomePage() {
+  const [todos, setTodos] = useState<HomeTodo[]>([]);
+
+  // Load infos onload
+  useEffect(() => {
+    todoController.get().then((todos) => {
+      setTodos(todos);
+    });
+  }, []);
+
   return (
     <main>
       <GlobalStyles themeName="coolGrey" />
