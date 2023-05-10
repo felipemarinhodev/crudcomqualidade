@@ -3,6 +3,27 @@ import { GlobalStyles } from "@ui/theme/GlobalStyles";
 
 const bg = "bg.avif";
 
+const todos = [
+  {
+    id: "808ef14b-0ec1-4d67-81b1-51d4f27e11a7",
+    content: "Primeiro TODO",
+    date: "2023-05-10T03:32:06.841Z",
+    done: false,
+  },
+  {
+    id: "7f449b61-6887-42ea-8708-052af494bd82",
+    content: "Extra TODO",
+    date: "2023-05-10T03:32:06.842Z",
+    done: false,
+  },
+  {
+    id: "90b8b00e-3f0c-4851-8018-0ec3d4130ee6",
+    content: "Atualizada!",
+    date: "2023-05-10T03:32:06.842Z",
+    done: false,
+  },
+];
+
 export default function HomePage() {
   return (
     <main>
@@ -39,25 +60,22 @@ export default function HomePage() {
               <th />
             </tr>
           </thead>
-
           <tbody>
-            <tr>
-              <td>
-                <input type="checkbox" />
-              </td>
-              <td>d4f26</td>
-              <td>
-                Conteúdo de uma TODO Lorem ipsum dolor sit amet consectetur
-                adipisicing elit. Eaque vero facilis obcaecati, autem aliquid
-                eius! Consequatur eaque doloribus laudantium soluta optio odit,
-                provident, ab voluptates doloremque voluptas recusandae
-                aspernatur aperiam.
-              </td>
-              <td align="right">
-                <button data-type="delete">Apagar</button>
-              </td>
-            </tr>
-
+            {todos.map((currentTodo) => {
+              return (
+                <tr key={currentTodo.id}>
+                  <td>
+                    <input type="checkbox" />
+                  </td>
+                  <td>{currentTodo.id.substring(0, 4)}</td>
+                  <td>{currentTodo.content}</td>
+                  <td align="right">
+                    <button data-type="delete">Apagar</button>
+                  </td>
+                </tr>
+              );
+            })}
+            {/* 
             <tr>
               <td colSpan={4} align="center" style={{ textAlign: "center" }}>
                 Carregando...
@@ -85,7 +103,7 @@ export default function HomePage() {
                   </span>
                 </button>
               </td>
-            </tr>
+            </tr> */}
           </tbody>
         </table>
       </section>
