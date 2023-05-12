@@ -93,15 +93,19 @@ function clearDB() {
 // [SIMULATION]
 clearDB();
 create("Primeiro TODO");
-const secondTodo = create("Segunda TODO");
-create("Extra TODO");
-deleteById(secondTodo.id);
-const thirdTodo = create("Terceira TODO");
+create("Segunda TODO");
+create("Terceiro TODO");
+create("Quarto TODO");
+create("Quinto TODO");
+// const secondTodo = create("Segunda TODO");
+// create("Extra TODO");
+// deleteById(secondTodo.id);
+// const thirdTodo = create("Terceira TODO");
 // update(thirdTodo.id, {
 //   content: "Segunda TODO com novo content!",
 //   done: true
 // })
 
-updateContentById(thirdTodo.id, "Atualizada!");
+// updateContentById(thirdTodo.id, "Atualizada!");
 
 // console.log(read());
