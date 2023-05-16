@@ -1,4 +1,5 @@
 import { create, read } from "@db-crud-todo";
+import { Todo } from "@ui/schema/todo";
 
 interface TodoRepositoryGetParams {
   page?: number;
@@ -15,7 +16,7 @@ function get({
   page = 1,
   limit = 10,
 }: TodoRepositoryGetParams = {}): TodoRepositoryGetOutput {
-  const ALL_TODOS = read();
+  const ALL_TODOS = read().reverse();
 
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
@@ -38,10 +39,3 @@ export const todoRepository = {
   get,
   createByContent,
 };
-
-interface Todo {
-  id: string;
-  content: string;
-  date: string;
-  done: boolean;
-}
