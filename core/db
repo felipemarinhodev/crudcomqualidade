@@ -1,27 +1,21 @@
 {
   "todos": [
     {
-      "id": "0fe6dbb3-00fc-4085-8fad-5d88e31f2473",
+      "id": "a05e50d4-c7af-44ee-81c2-ba036a9ea974",
+      "content": "Primeiro TODO",
+      "date": "2023-05-17T22:46:49.973Z",
+      "done": false
+    },
+    {
+      "id": "42b543f5-396e-4968-98d7-69b396a0ec42",
       "content": "Segunda TODO",
-      "date": "2023-05-17T20:43:33.656Z",
+      "date": "2023-05-17T22:46:49.973Z",
       "done": false
     },
     {
-      "id": "4e7628be-85e4-47a3-9ce9-94c9075e686b",
-      "content": "Terceiro TODO",
-      "date": "2023-05-17T20:43:33.656Z",
-      "done": false
-    },
-    {
-      "id": "d2bc954c-96ab-419e-b4ba-9200ef13a994",
-      "content": "Quarto TODO",
-      "date": "2023-05-17T20:43:33.656Z",
-      "done": false
-    },
-    {
-      "id": "7772debf-2922-4ca1-a4ed-a06b600bab2d",
+      "id": "1aeac3f3-8659-4455-a02d-e6498e9bb66b",
       "content": "Quinto TODO",
-      "date": "2023-05-17T20:43:33.656Z",
+      "date": "2023-05-17T22:46:49.974Z",
       "done": false
     }
   ]
