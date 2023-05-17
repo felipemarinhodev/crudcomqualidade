@@ -54,5 +54,34 @@ async function create(request: NextApiRequest, response: NextApiResponse) {
     todo: createTodo,
   });
 }
+const TodoIdQuerySchema = z.object({
+  id: z.string().uuid(),
+});
 
-export const todoController = { get, create };
+async function toggleDone(request: NextApiRequest, response: NextApiResponse) {
+  const todoId = TodoIdQuerySchema.safeParse(request.query);
+
+  if (!todoId.success) {
+    response.status(400).json({
+      error: {
+        message: "You must to provide a string ID",
+        description: todoId.error.issues,
+      },
+    });
+    return;
+  }
+  try {
+    const updatedTodo = await todoRepository.toggleDone(todoId.data.id);
+
+    return response.status(200).json({ todo: updatedTodo });
+  } catch (error) {
+    if (error instanceof Error) {
+      response.status(404).json({
+        error: {
+          message: error.message,
+        },
+      });
+    }
+  }
+}
+export const todoController = { get, create, toggleDone };
