@@ -1,3 +1,4 @@
+import { HttpNotFoundError } from "@server/infra/errors";
 import { todoRepository } from "@server/repository/todo";
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
@@ -55,7 +56,7 @@ async function create(request: NextApiRequest, response: NextApiResponse) {
   });
 }
 const TodoIdQuerySchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().uuid().nonempty(),
 });
 
 async function toggleDone(request: NextApiRequest, response: NextApiResponse) {
@@ -84,4 +85,42 @@ async function toggleDone(request: NextApiRequest, response: NextApiResponse) {
     }
   }
 }
-export const todoController = { get, create, toggleDone };
+
+async function deleteById(request: NextApiRequest, response: NextApiResponse) {
+  const todoId = TodoIdQuerySchema.safeParse(request.query);
+
+  if (!todoId.success) {
+    response.status(400).json({
+      error: {
+        message: "You must to provide a string ID",
+        description: todoId.error.issues,
+      },
+    });
+    return;
+  }
+
+  const { id } = todoId.data;
+  try {
+    await todoRepository.deleteById(id);
+
+    return response.status(204).end();
+  } catch (error) {
+    if (error instanceof HttpNotFoundError) {
+      response.status(error.status).json({
+        error: {
+          message: error.message,
+        },
+      });
+    }
+
+    if (error instanceof Error) {
+      response.status(400).json({
+        error: {
+          message: `Failed to delete resource with id ${id}`,
+        },
+      });
+    }
+  }
+}
+
+export const todoController = { get, create, toggleDone, deleteById };
