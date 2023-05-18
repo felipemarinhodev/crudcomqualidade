@@ -4,7 +4,7 @@ describe("/ - Todos feed", () => {
   it("when load, renders the page", () => {
     cy.visit(BASE_URL);
   });
-  it.only("When create a new todo, it must appears in the screen", () => {
+  it("When create a new todo, it must appears in the screen", () => {
     // 1 - Interceptações/Interceptação
     cy.intercept("POST", `${BASE_URL}/api/todos`, (request) => {
       request.reply({
@@ -22,12 +22,12 @@ describe("/ - Todos feed", () => {
     // 2 - Abrir a página
     cy.visit(BASE_URL);
     // 3 - Selecionar o input de criar nova todo
-    const $inputAddTodo = cy.get("input[name='add-todo']");
     // 4 - Digitar no input de criar nova todo
-    $inputAddTodo.type("Test Todo");
+    const inputAddTodo = "input[name='add-todo']";
+    cy.get(inputAddTodo).type("Test Todo");
     // 5 - Clicar no botão
-    const $buttonAddTodo = cy.get("[aria-label='Adicionar novo item']");
-    $buttonAddTodo.click();
+    const buttonAddTodo = "[aria-label='Adicionar novo item']";
+    cy.get(buttonAddTodo).click();
     // 6 - Checar se na página surgiu um novo elemento
     cy.get("table > tbody").contains("Test Todo");
   });
