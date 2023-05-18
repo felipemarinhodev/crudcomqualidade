@@ -25,9 +25,5 @@ jobs:
       ## =================
       - name: "Install Dependencies"
         run: "npm install"
-      - name: "Grant access to folder ./core/db"
-        run: |
-          "ls -la"
-          "chmod -R 777 ./core/db"
       - name: "Test - Cypress"
         run: "npm run test"
