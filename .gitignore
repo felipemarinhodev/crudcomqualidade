@@ -131,3 +131,6 @@ dist
 
 # in memory database
 core/db
+
+# cypress
+cypress/videos/*
