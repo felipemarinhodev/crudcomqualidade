@@ -27,6 +27,7 @@ jobs:
         run: |
           ls -la
           echo "Segundo comando de debug"
+          chmod 777 core/db
       - name: "Install Dependencies"
         run: "npm install"
       - name: "Test - Cypress"
