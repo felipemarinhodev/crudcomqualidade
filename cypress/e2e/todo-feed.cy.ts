@@ -4,31 +4,35 @@ describe("/ - Todos feed", () => {
   it("when load, renders the page", () => {
     cy.visit(BASE_URL);
   });
-  it("When create a new todo, it must appears in the screen", () => {
-    // 1 - Interceptações/Interceptação
+  it("when create a new todo, it must appears in the screen", () => {
+    // 0 - Interceptações/Intertecptação
     cy.intercept("POST", `${BASE_URL}/api/todos`, (request) => {
       request.reply({
         statusCode: 201,
         body: {
           todo: {
-            id: "91289483-7dcc-4b4d-9608-1b7cb5ca21ee",
-            content: "Test Todo",
-            date: "2023-05-18T05:42:29.219Z",
+            id: "70905d7e-c969-45b1-99f0-1aa155477204",
+            date: "2023-04-15T19:46:51.109Z",
+            content: "Test todo",
             done: false,
           },
         },
       });
     }).as("createTodo");
-    // 2 - Abrir a página
+
+    // 1 - Abrir a página
     cy.visit(BASE_URL);
-    // 3 - Selecionar o input de criar nova todo
-    // 4 - Digitar no input de criar nova todo
+    // 2 e 3 - Selecionar o input de criar nova todo e Digitar no input de criar nova todo
     const inputAddTodo = "input[name='add-todo']";
-    cy.get(inputAddTodo).type("Test Todo");
-    // 5 - Clicar no botão
+    cy.get(inputAddTodo).type("Test todo");
+    // 4 - Clicar no botão
     const buttonAddTodo = "[aria-label='Adicionar novo item']";
     cy.get(buttonAddTodo).click();
-    // 6 - Checar se na página surgiu um novo elemento
-    cy.get("table > tbody").contains("Test Todo");
+
+    // 5 - Checar se na página surgiu um novo elemento
+    cy.get("table > tbody").contains("Test todo");
+
+    // Criar validações a partir de valores
+    expect("texto").to.be.equal("texto");
   });
 });
