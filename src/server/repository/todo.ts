@@ -7,6 +7,16 @@ import {
 import { HttpNotFoundError } from "@server/infra/errors";
 import { Todo } from "@ui/schema/todo";
 
+// Supabase
+// TODO: move to another file
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = process.env.SUPABASE_URL || "";
+const supabaseKey = process.env.SUPABASE_SECRET_KEY || "";
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// End Supabase
+
 interface TodoRepositoryGetParams {
   page?: number;
   limit?: number;
@@ -18,22 +28,37 @@ interface TodoRepositoryGetOutput {
   total: number;
 }
 
-function get({
+async function get({
   page = 1,
   limit = 10,
-}: TodoRepositoryGetParams = {}): TodoRepositoryGetOutput {
-  const ALL_TODOS = read().reverse();
+}: TodoRepositoryGetParams = {}): Promise<TodoRepositoryGetOutput> {
+  const { data, error, count } = await supabase.from("todos").select("*", {
+    count: "exact",
+  });
 
-  const startIndex = (page - 1) * limit;
-  const endIndex = page * limit;
-  const paginatedTodos = ALL_TODOS.slice(startIndex, endIndex);
-  const totalPages = Math.ceil(ALL_TODOS.length / limit);
+  if (error) throw new Error("Failed to fetch data");
 
+  // TODO: Fix this to be properly validated by schema
+  const todos = data as Todo[];
+  const total = count || todos.length;
   return {
-    todos: paginatedTodos,
-    total: ALL_TODOS.length,
-    pages: totalPages,
+    todos,
+    total,
+    pages: 1,
   };
+
+  // const ALL_TODOS = read().reverse();
+
+  // const startIndex = (page - 1) * limit;
+  // const endIndex = page * limit;
+  // const paginatedTodos = ALL_TODOS.slice(startIndex, endIndex);
+  // const totalPages = Math.ceil(ALL_TODOS.length / limit);
+
+  // return {
+  //   todos: paginatedTodos,
+  //   total: ALL_TODOS.length,
+  //   pages: totalPages,
+  // };
 }
 
 async function createByContent(content: string): Promise<Todo> {
