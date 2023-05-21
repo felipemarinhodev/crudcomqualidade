@@ -49,11 +49,19 @@ async function create(request: NextApiRequest, response: NextApiResponse) {
   }
 
   // Here we have the data!
-  const createTodo = await todoRepository.createByContent(body.data.content);
+  try {
+    const createTodo = await todoRepository.createByContent(body.data.content);
 
-  response.status(201).json({
-    todo: createTodo,
-  });
+    response.status(201).json({
+      todo: createTodo,
+    });
+  } catch (error) {
+    response.status(400).json({
+      error: {
+        message: "Failed to create TODO",
+      },
+    });
+  }
 }
 const TodoIdQuerySchema = z.object({
   id: z.string().uuid().nonempty(),
