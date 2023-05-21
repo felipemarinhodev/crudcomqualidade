@@ -39,6 +39,7 @@ async function get({
     .select("*", {
       count: "exact",
     })
+    .order("date", { ascending: false })
     .range(startIndex, endIndex);
 
   if (error) throw new Error("Failed to fetch data");
