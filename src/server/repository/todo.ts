@@ -61,8 +61,23 @@ async function get({
 }
 
 async function createByContent(content: string): Promise<Todo> {
-  const newTodo = await create(content);
-  return newTodo;
+  const { data, error } = await supabase
+    .from("todos")
+    .insert([
+      {
+        content,
+      },
+    ])
+    .select()
+    .single();
+
+  if (error) {
+    throw new Error("Failed to create TODO");
+  }
+
+  const parsedData = TodoSchema.parse(data);
+
+  return parsedData;
 }
 
 async function toggleDone(id: string): Promise<Todo> {
