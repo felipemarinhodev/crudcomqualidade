@@ -1,15 +1,6 @@
+import { supabase } from "@server/infra/db/supabase";
 import { HttpNotFoundError } from "@server/infra/errors";
 import { Todo, TodoSchema } from "@server/schema/todo";
-
-// Supabase
-// TODO: move to another file
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = process.env.SUPABASE_URL || "";
-const supabaseKey = process.env.SUPABASE_SECRET_KEY || "";
-const supabase = createClient(supabaseUrl, supabaseKey);
-
-// End Supabase
 
 interface TodoRepositoryGetParams {
   page?: number;
